@@ -17,14 +17,18 @@
  */
 
 Tita = {
-   'VERSION': '0.0.1'
+   'VERSION': '0.0.2'
 }
 
 Tita.class = function (definitions) {
+   var _inititalizer = 'initialize';
+
    function getInitializer() {
       return function () {
-         if (typeof this['initialize'] === 'function') {
+         if (/(function|undefined)/.test(typeof(this[_inititalizer]))) {
             this.initialize.apply(this, arguments);
+         } else {
+            throw Error('Initializer is not a function!');
          }
       }
    }
