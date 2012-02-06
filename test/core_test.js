@@ -1,5 +1,5 @@
 $(document).ready(function() {
-   module('Core features');
+   module('Core');
    test('Tita class should exists', function () {
      ok(typeof(Tita) == 'object', 'Expected a global object');
    });
@@ -13,7 +13,11 @@ $(document).ready(function() {
     ok(typeof(T) == 'function', 'Expected a Class (Constructor function)');
   });
 
-  test('Tita.class raises an error if the initializer was defined and is not a function', function () {
+  test('Tita.class raises an error when the constructor was defined and is not a function', function () {
     raises(Tita.class({initialize: 'constructor'}), Error, 'Expected an error when the initializer was defined and is not a function');
+  });
+
+  test("Tita.class not raises an error when the constructor wasn't defined", function () {
+    raises(Tita.class({}), Error, 'Expected no errors');
   });
 });
