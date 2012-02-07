@@ -1,3 +1,10 @@
+/*
+ * This Javascript doesn't work!
+ * I'm using 'js' in this file extension for the syntax hilighting.
+ *
+ * :p
+ */
+
 // Version.: 0.1.X
 
 var A = Tita.class({
