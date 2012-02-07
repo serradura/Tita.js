@@ -18,6 +18,6 @@ $(document).ready(function() {
   });
 
   test("Tita.class not raises an error when the constructor wasn't defined", function () {
-    raises(Tita.class({}), Error, 'Expected no errors');
+    ok(Tita.class({}), 'Expected no errors');
   });
 });
