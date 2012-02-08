@@ -18,28 +18,24 @@ Tita.Builder.Definition = function (klazz, data) {
 };
 
 Tita.Builder.Constructor = function (definition) {
-  var __constructor__;
+  var constructors, __constructor__;
 
-  switch (definition._constructor.type) {
-  case 'function':
-    __constructor__ = definition._constructor.function;
-    break;
-
-  case 'undefined':
-    __constructor__ = function () {};
-    break;
-
-  default:
-    __constructor__ = function () {
-      throw Error('Initializer is not a function!');
-    }
-    break;
+  constructors = {
+    'undefined': function () {},
+    'function' : definition._constructor.function,
+    'error'    : function () {
+                   throw Error('Initializer is not a function!');
+                 }
   }
+
+  __constructor__ = (function (type, constructors) {
+                       return constructors[(type.match(/(function|undefined)/) ? type : 'error')];
+                    })(definition._constructor.type, constructors);
 
   definition.klazz.prototype.__constructor__ = __constructor__;
 }
 
-Tita.Builder.Handler = function (definition) {
+Tita.Builder.Properties = function (definition) {
   var definitions = definition.data;
 
   for (_property in definitions) {
@@ -64,12 +60,12 @@ Tita.class = function (definitions) {
     this.__constructor__.apply(this, arguments);
   }
 
-  var _ = Tita.Builder;
+  var self = Tita;
 
-  var definition = new _.Definition(this.constructor, definitions);
+  var definition = new self.Builder.Definition(this.constructor, definitions);
 
-  _.Constructor(definition);
-  _.Handler(definition);
+  self.Builder.Constructor(definition);
+  self.Builder.Properties(definition);
 
   return this.constructor;
 }
