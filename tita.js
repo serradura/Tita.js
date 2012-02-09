@@ -3,34 +3,31 @@
  */
 
 Tita = {
-   'VERSION': '0.1.0'
+  VERSION: '0.1.0',
+  Builder: {
+    Definition: function (klazz, data) {
+                  this.klazz = klazz;
+                  this.data  = data;
+
+                  this._constructor = {name: 'initialize'};
+                  this._constructor.function = data[this._constructor.name];
+                  this._constructor.type = typeof(this._constructor.function);
+                }
+  }
 }
 
-Tita.Builder = {};
-
-Tita.Builder.Definition = function (klazz, data) {
-  this.klazz = klazz;
-  this.data  = data;
-
-  this._constructor = {name: 'initialize'};
-  this._constructor.function = data[this._constructor.name];
-  this._constructor.type = typeof(this._constructor.function);
-};
-
 Tita.Builder.Constructor = function (definition) {
-  var constructors, __constructor__;
-
-  constructors = {
+  var constructors = {
     'undefined': function () {},
     'function' : definition._constructor.function,
     'error'    : function () {
-                   throw Error('Initializer is not a function!');
+                   throw Error('The initializer is not a function!');
                  }
   }
 
-  __constructor__ = (function (type, constructors) {
-                       return constructors[(type.match(/(function|undefined)/) ? type : 'error')];
-                    })(definition._constructor.type, constructors);
+ var __constructor__ = (function (type, constructors) {
+                           return type.match(/(function|undefined)/) ? constructors[type] : error.call();
+                        })(definition._constructor.type, constructors);
 
   definition.klazz.prototype.__constructor__ = __constructor__;
 }

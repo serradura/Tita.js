@@ -1,16 +1,16 @@
 $(document).ready(function() {
-   module('Class');
-   test('Returns class attributes', function () {
+   module('Classes');
+   test('Should have the defined attributes', function () {
      var Test = Tita.class({
        self: {
               value: 1
              }
      });
 
-     ok(Test.value == 1, 'Expected the value defined in the self context');
+     ok(Test.value == 1, 'Expected the class attribute defined in the self context');
    });
 
-   test('Returns class methods', function () {
+   test('Should have the defined methods', function () {
      var Test = Tita.class({
        self: {
               say: function (message) {

@@ -1,6 +1,6 @@
 $(document).ready(function() {
    module('Instances');
-   test("Should not have an initialize method after it's creation", function () {
+   test("Should not have an initialize method after an instantiation", function () {
      var Test = Tita.class({
        initialize: function(a) {}
      });
@@ -9,7 +9,7 @@ $(document).ready(function() {
      equal(t.initialize, undefined, 'Expected an instance without an initialize method');
    });
 
-   test('Returns attributes', function () {
+   test('Should have the defined attributes', function () {
      var Test = Tita.class({
        initialize: function (a) {
                     this.a = a;
@@ -17,10 +17,10 @@ $(document).ready(function() {
      });
 
      var t = new Test(1);
-     ok(t.a == 1, 'Expected the value defined in class constructor');
+     ok(t.a == 1, 'Expected the attribute defined in class constructor');
    });
 
-   test('Returns methods', function () {
+   test('Should have the defined methods', function () {
      var Test = Tita.class({
        say_from_instance:
           function (message) {
