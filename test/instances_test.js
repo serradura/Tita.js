@@ -1,34 +1,30 @@
 $(document).ready(function() {
-   module('Instances');
-   test("Should not have an initialize method after an instantiation", function () {
-     var Test = Tita.class({
-       initialize: function(a) {}
-     });
+  module('Instances', {
+    setup: function () {
+      var Class = Tita.class({
+        initialize: function(value) {
+          this.value = value;
+        },
 
-     var t = new Test();
-     equal(t.initialize, undefined, 'Expected an instance without an initialize method');
-   });
+        say:
+        function (message) {
+          return message;
+        }
+      });
 
-   test('Should have the defined attributes', function () {
-     var Test = Tita.class({
-       initialize: function (a) {
-                    this.a = a;
-                  }
-     });
+      this.instance = new Class(1);
+    }
+  });
 
-     var t = new Test(1);
-     ok(t.a == 1, 'Expected the attribute defined in class constructor');
-   });
+  test("Should not have an initialize method after an instantiation", function () {
+    equal(this.instance.initialize, undefined, 'Expected an instance without an initialize method');
+  });
 
-   test('Should have the defined methods', function () {
-     var Test = Tita.class({
-       say_from_instance:
-          function (message) {
-            return message;
-          }
-     });
+  test('Should have the defined attributes', function () {
+    equal(this.instance.value, 1, 'Expected the attribute defined in class constructor');
+  });
 
-     var t = new Test();
-     equal(t.say_from_instance('World'), 'World', 'Expected the value returned by the instance method');
-   });
+  test('Should have the defined methods', function () {
+    equal(this.instance.say('World'), 'World', 'Expected the value returned by the instance method');
+  });
 });

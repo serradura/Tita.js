@@ -1,24 +1,31 @@
 $(document).ready(function() {
-   module('Classes');
-   test('Should have the defined attributes', function () {
-     var Test = Tita.class({
-       self: {
-              value: 1
-             }
-     });
+  module('Classes', {
+    setup: function () {
+      this.Class = Tita.class({
+        this: {
+                value: 1,
 
-     ok(Test.value == 1, 'Expected the class attribute defined in the self context');
-   });
+                say: function (message) {
+                  return String(message);
+                },
 
-   test('Should have the defined methods', function () {
-     var Test = Tita.class({
-       self: {
-              say: function (message) {
-                return String(message);
+                getValue: function () {
+                  return this.value;
+                }
               }
-       }
-     });
+      });
+    }
+  });
 
-     equal(Test.say('hello'), 'hello', 'Expected the value returned by the class method');
-   });
+  test('Should have the defined attributes', function () {
+    equal(this.Class.value, 1, 'Expected the class attribute defined in the self context');
+  });
+
+  test('Should have the defined methods', function () {
+    equal(this.Class.say('hello'), 'hello', 'Expected the value returned by the class method');
+  });
+
+  test('Should access to itself using "this"', function () {
+    equal(this.Class.getValue(), 1, 'Expected the value returned by the class attribute');
+  });
 });

@@ -13,8 +13,20 @@ $(document).ready(function() {
 
   (function () {
     var Class = function () { /*The Class*/ };
+
     var definitions = {
       initialize: function () { /*The Constructor*/ }
+    }
+
+    var getConstructorObjToTestFrom = function (options) {
+      var Class       = options.defaultArgs[0]; delete Class.prototype.__constructor__;
+      var definitions = options.defaultArgs[1]; delete definitions.initialize;
+
+      if (options.initializer) definitions.initialize = options.initializer;
+
+      Tita.Builder.Constructor(new Tita.Builder.Definition(Class, definitions));
+
+      return new Class.prototype.__constructor__;
     }
 
     module('Tita.Builder.Definition');
@@ -54,9 +66,9 @@ $(document).ready(function() {
 
 
     module('Tita.Builder.Properties');
-    test('Collect the properties defined in the self definition property and apply them in the class', function () {
+    test('Collect properties defined in the "this" definition property and apply them in the class', function () {
       definitions = {
-        self: {
+        this: {
                 'method'   : function () { return 'class method' },
                 'attribute': 'class attribute'
               }
@@ -68,7 +80,7 @@ $(document).ready(function() {
       equal(Class.attribute, 'class attribute');
     });
 
-    test('Collect the instance properties (not defined in the self definition property) and apply them to the Class prototype', function () {
+    test('Collect instance properties (not defined in the "this" property) and apply them to the Class prototype', function () {
       definitions = {
         'method'   : function () { return 'instance method' },
         'attribute': 'instance attribute'
